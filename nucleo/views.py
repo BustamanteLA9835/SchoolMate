@@ -83,7 +83,47 @@ def hola_mundo(request):
           <td>Ver actividad 3</td>
         </tr>
       </tbody>
-    </table>  
+    </table>
+    <div class="container text-center">
+  <div class="row align-items-start">
+    <div class="col">
+      Español
+    </div>
+    <div class="col">
+      Matematicas
+    </div>
+    <div class="col">
+      Ciencias naturales
+    </div>
+  </div>
+</div> 
+<p><a class="link-opacity-100" href="#">https://es.scribd.com/document/419766591/QUE-ES-LA-MATERIA-ESPANOL-docx</a></p> 
+<p style="text-align: center;">
+  <a class="link-opacity-100" href="#">https://concepto.de/matematicas/</a>
+</p>
+<p style="text-align: right;">
+  <a class="link-opacity-100" href="#">https://concepto.de/ciencias-naturales/</a>
+</p>
+<div class="container text-center">
+  <div class="row align-items-start">
+    <div class="col">
+      modulo
+    </div>
+    <div class="col">
+      ingles
+    </div>
+    <div class="col">
+      conciencia historica
+    </div>
+  </div>
+</div> 
+<p><a class="link-opacity-100" href="#">https://www.netec.com/que-es-programacion</a></p> 
+<p style="text-align: center;">
+  <a class="link-opacity-100" href="#">https://www.cambridgeenglish.org/latinamerica/learning-english/</a>
+</p>
+<p style="text-align: right;">
+  <a class="link-opacity-100" href="#">https://nem.comenio.ai/mccems/conciencia-historica</a>
+</p>
     </body>
 
     </html>
