@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if tarea %}Editar{% else %}Registrar{% endif %} Tarea - SchoolMate</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #cce7ff;">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                SchoolMate • {% if tarea %}Editar Tarea{% else %}Registro de Tareas{% endif %}
+            </span>
+        </div>
+    </nav>
+
+    {% if message %}
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+        <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    ✅ {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="container mt-4 mb-5">
+        <div class="card shadow">
+            <div class="card-header {% if tarea %}bg-warning text-dark{% else %}bg-primary text-white{% endif %} d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    {% if tarea %}
+                        Editar actividad / tarea
+                    {% else %}
+                        Registrar nueva actividad / tarea
+                    {% endif %}
+                </h5>
+
+                <a href="{% url 'hola' %}" class="btn btn-outline-light btn-sm">
+                    ← Regresar al inicio
+                </a>
+            </div>
+
+            <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Nombre de la actividad -->
+                    <div class="mb-3">
+                        <label class="form-label">Título de la actividad</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="titulo"
+                            required
+                            placeholder="Ej. Ensayo de ciencias, ejercicio 5, mapa mental de historia..."
+                            value="{% if tarea %}{{ tarea.titulo }}{% endif %}">
+                    </div>
+
+                    <!-- Materia -->
+                    <div class="mb-3">
+                        <label class="form-label">Materia</label>
+                        <select class="form-select" name="materia" required>
+                            <option value="" disabled {% if not tarea %}selected{% endif %}>Selecciona una materia</option>
+                            <option value="Español" {% if tarea and tarea.materia == 'Español' %}selected{% endif %}>Español</option>
+                            <option value="Matemáticas" {% if tarea and tarea.materia == 'Matemáticas' %}selected{% endif %}>Matemáticas</option>
+                            <option value="Ciencias Naturales" {% if tarea and tarea.materia == 'Ciencias Naturales' %}selected{% endif %}>Ciencias Naturales</option>
+                            <option value="Historia" {% if tarea and tarea.materia == 'Historia' %}selected{% endif %}>Historia</option>
+                            <option value="Inglés" {% if tarea and tarea.materia == 'Inglés' %}selected{% endif %}>Inglés</option>
+                            <option value="Computación" {% if tarea and tarea.materia == 'Computación' %}selected{% endif %}>Computación</option>
+                        </select>
+                    </div>
+
+                    <!-- Grado -->
+                    <div class="mb-3">
+                        <label class="form-label">Grado / Nivel</label>
+                        <select class="form-select" name="grado" required>
+                            <option value="" disabled {% if not tarea %}selected{% endif %}>Selecciona un grado</option>
+
+                            <option value="1°" {% if tarea and tarea.grado == '1°' %}selected{% endif %}>1°</option>
+                            <option value="2°" {% if tarea and tarea.grado == '2°' %}selected{% endif %}>2°</option>
+                            <option value="3°" {% if tarea and tarea.grado == '3°' %}selected{% endif %}>3°</option>
+                            <option value="4°" {% if tarea and tarea.grado == '4°' %}selected{% endif %}>4°</option>
+                            <option value="5°" {% if tarea and tarea.grado == '5°' %}selected{% endif %}>5°</option>
+                            <option value="6°" {% if tarea and tarea.grado == '6°' %}selected{% endif %}>6°</option>
+                        </select>
+                    </div>
+
+                    <!-- Fecha de entrega -->
+                    <div class="mb-3">
+                        <label class="form-label">Fecha de entrega</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name="fecha_entrega"
+                            required
+                            value="{% if tarea and tarea.fecha_entrega %}{{ tarea.fecha_entrega|date:'Y-m-d' }}{% endif %}">
+                    </div>
+
+                    <!-- Estado de la tarea -->
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" name="estado" required>
+                            <option value="" disabled {% if not tarea %}selected{% endif %}>Selecciona un estado</option>
+                            <option value="Asignada" {% if tarea and tarea.estado == 'Asignada' %}selected{% endif %}>Asignada</option>
+                            <option value="En progreso" {% if tarea and tarea.estado == 'En progreso' %}selected{% endif %}>En progreso</option>
+                            <option value="Completada" {% if tarea and tarea.estado == 'Completada' %}selected{% endif %}>Completada</option>
+                            <option value="Atrasada" {% if tarea and tarea.estado == 'Atrasada' %}selected{% endif %}>Atrasada</option>
+                        </select>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label class="form-label">Descripción detallada</label>
+                        <textarea
+                            class="form-control"
+                            rows="4"
+                            name="descripcion"
+                            required
+                            placeholder="Describe la actividad o instrucciones para el alumno.">{% if tarea %}{{ tarea.descripcion }}{% endif %}</textarea>
+                    </div>
+
+                    <!-- Archivo adjunto -->
+                    <div class="mb-3">
+                        <label class="form-label">Adjuntar archivo (opcional)</label>
+                        <input type="file" class="form-control" name="archivo">
+                        {% if tarea and tarea.archivo %}
+                            <small class="text-muted">Archivo actual: {{ tarea.archivo.name }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'hola' %}" class="btn btn-secondary">
+                            ← Regresar al inicio
+                        </a>
+                        <button type="submit" class="btn {% if tarea %}btn-warning{% else %}btn-success{% endif %}">
+                            {% if tarea %}Guardar cambios{% else %}Guardar actividad{% endif %}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('successToast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
+</body>
+</html>
